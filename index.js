@@ -1,6 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App.jsx";
+import {App,New} from "./App.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App></App>);
+root.render(
+    <React.StrictMode>
+        <App></App>
+        <New></New>
+    </React.StrictMode>
+    );
