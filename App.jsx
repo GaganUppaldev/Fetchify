@@ -58,4 +58,72 @@ function New() {
   )
 }
 
-export {App,New};
+
+const PostRequestComponent = () => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [name, setName] = useState('');
+  const [job, setJob] = useState('');
+
+  const handlePostRequest = () => {
+    // Define the URL for the POST request
+    const url = 'https://reqres.in/api/users/201'; // Example endpoint for creating a user
+    const postData = {
+      name: name,
+      job: job
+    };
+
+    // Send the POST request using axios
+    axios.post(url, postData)
+      .then(response => {
+        setData(response.data); // Set the response data
+        setError(null); // Clear any previous errors
+      })
+      .catch(err => {
+        setError(err); // Set the error
+        setData(null); // Clear any previous data
+      });
+  };
+
+  return (
+    <div>
+      <h1>POST Request Example</h1>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Job"
+        value={job}
+        onChange={(e) => setJob(e.target.value)}
+      />
+      <button onClick={handlePostRequest}>Send POST Request</button>
+      {error && (
+        <div>
+          <h3>Error:</h3>
+          <pre>{error.message}</pre>
+        </div>
+      )}
+      {data && (
+        <div>
+          <h3>Response Data:</h3>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+ 
+
+
+
+ 
+
+export {App,New, PostRequestComponent}
+
+
+
