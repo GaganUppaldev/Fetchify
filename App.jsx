@@ -58,7 +58,6 @@ function New() {
   )
 }
 
-
 const PostRequestComponent = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -67,7 +66,7 @@ const PostRequestComponent = () => {
 
   const handlePostRequest = () => {
     // Define the URL for the POST request
-    const url = 'https://reqres.in/api/users/201'; // Example endpoint for creating a user
+    const url = 'https://reqres.in/api/users'; // Example endpoint for creating a user
     const postData = {
       name: name,
       job: job
@@ -82,6 +81,26 @@ const PostRequestComponent = () => {
       .catch(err => {
         setError(err); // Set the error
         setData(null); // Clear any previous data
+      });
+  };
+
+  const handleDeleteJob = () => {
+    if (!data || !data.id) {
+      setError({ message: 'No user to delete job from' });
+      return;
+    }
+
+    // Define the URL for the DELETE request
+    const url = `https://reqres.in/api/users/${data.id}`; // Example endpoint for deleting a user
+    axios.delete(url)
+      .then(() => {
+        // Remove the job from the data
+        const newData = { ...data, job: null };
+        setData(newData); // Update the data state without the job
+        setError(null); // Clear any previous errors
+      })
+      .catch(err => {
+        setError(err); // Set the error
       });
   };
 
@@ -101,6 +120,7 @@ const PostRequestComponent = () => {
         onChange={(e) => setJob(e.target.value)}
       />
       <button onClick={handlePostRequest}>Send POST Request</button>
+      <button onClick={handleDeleteJob} disabled={!data || !data.job}>Delete Job</button>
       {error && (
         <div>
           <h3>Error:</h3>
@@ -117,13 +137,10 @@ const PostRequestComponent = () => {
   );
 };
 
- 
 
 
 
- 
 
 export {App,New, PostRequestComponent}
-
 
 
